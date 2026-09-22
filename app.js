@@ -3,13 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const onb = document.getElementById('onbScreen');
     const auth = document.getElementById('authScreen');
     const app = document.getElementById('app');
-    const onbImgs = document.querySelectorAll('.onb-img');
+    const onbSlides = document.querySelectorAll('.onb-slide');
     const dots = document.querySelectorAll('.dot');
+    const onbNext = document.getElementById('onbNext');
     let onbIdx = 0;
 
     function showOnbSlide(i) {
-        onbImgs.forEach((img, idx) => img.classList.toggle('active', idx === i));
+        onbSlides.forEach((s, idx) => s.classList.toggle('active', idx === i));
         dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+        onb.dataset.bg = i;
+        if (onbNext) onbNext.textContent = i === onbSlides.length - 1 ? 'Начать' : 'Далее';
     }
 
     // Splash → Onboarding
@@ -76,6 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toggles
     document.querySelectorAll('.tgl').forEach(t => t.addEventListener('click', () => t.classList.toggle('on')));
+
+    // On mobile show native-style empty fields (placeholders)
+    if (window.matchMedia('(max-width: 900px)').matches) {
+        document.querySelectorAll('.auth-form input').forEach(i => { i.value = ''; });
+    }
 
     // Date
     function updateDate() {
